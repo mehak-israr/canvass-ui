@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Canvas Task</title>
+</head>
+
+<body>
+    
+    <div class="container">
+        <div class="card mt-3">
+            <div class="card-header">
+                <h1 class="text-center fw-bold bg-info">Canvas Assignment</h1>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group mt-3">
+                            <label>Upload image</label>
+                            <input type="file" id=image class="form-control" />
+                        </div>
+                        <div class="form-group mt-3">
+                            <label>Enter Text on Image</label>
+                            <input type="text" id=text class="form-control" placeholder="Enter Text" />
+                        </div>
+                        <div class="form-group mt-3">
+                            <label>Header</label>
+                            <input type="text" id=header-text class="form-control" placeholder="Enter Header Text" ; />
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label>Footer</label>
+                            <input type="text" id=footer-text class="form-control" placeholder="Enter footer text" ; />
+                        </div>
+                        <div class="form-group mt-3">
+                            <button type="button" class="btn btn-primary" id="downloadbtn">Download Image</button>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <canvas width="600" height="400" id="canvas" style="border:1px solid blue">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+             var canvasheader=document.getElementById("canvas"); 
+             var ctx = canvasheader.getContext("2d");
+             ctx.beginPath();
+             ctx.rect(0, 0, 600, 50);
+             ctx.fillStyle="#87CEEB";
+             ctx.fill();
+             ctx.stroke();
+
+             var canvasfooter=document.getElementById("canvas"); 
+             var ctx = canvasfooter.getContext("2d");
+             ctx.beginPath();
+             ctx.rect(0, 350, 600, 50);
+             ctx.fillStyle="#87CEEB";
+             ctx.fill();
+             ctx.stroke();
+
+
+            document.getElementById("image").onchange = function () {
+                var image = document.getElementById("image").files[0];
+                var image_url = window.URL.createObjectURL(image);
+                drawImageOnCanavs(image_url, canvas, ctx);
+            }
+            function drawImageOnCanavs(image_url, canvas, ctx) {
+                const image = new Image(canvas.width, canvas.height);
+                image.onload = function () {
+                    ctx.drawImage(image, 0, 50, canvas.width, 300);
+                }
+                image.src = image_url;
+            }
+             
+            document.getElementById('text').onkeyup = function () {
+                var text = document.getElementById('text').value;
+                getText(text, canvas, ctx);
+            }
+            function getText(text, canvas, ctx) {
+                ctx.font = "30px Arial";
+                ctx.fillText(text, 190, 220);
+            }
+
+
+            document.getElementById('header-text').onkeyup = function () {
+                var headertext = document.getElementById('header-text').value;
+                getHeaderText(headertext, canvas, ctx);
+            }
+            function getHeaderText(headertext, canvas, ctx) {
+                ctx.font = "30px Arial";
+                ctx.fillText(headertext, 70, 40);
+                ctx.fillStyle = "blue";
+        
+            }
+            document.getElementById('footer-text').onkeyup = function () {
+                var footertext = document.getElementById('footer-text').value;
+                getFooterText(footertext, canvas, ctx);
+            }
+            function getFooterText(footertext, canvas, ctx) {
+                ctx.font = "30px Arial"
+                ctx.fillText(footertext, 70, 380);
+                ctx.fillStyle = "blue";
+
+            }
+
+            document.getElementById("downloadbtn").onclick = function () {
+                var link = document.createElement('a');
+                link.download = "canvas.png";
+                link.href = document.getElementById('canvas').toDataURL();
+                link.click();
+            }
+         
+
+        </script>
+       
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
